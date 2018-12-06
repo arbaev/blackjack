@@ -1,5 +1,6 @@
 class Player
-  attr_reader :name, :bank, :cards
+  attr_accessor :bank
+  attr_reader :name, :cards
 
   def initialize(name, bank)
     @name = name
@@ -12,6 +13,7 @@ class Player
   end
 
   def score
+    # туз может равняться 1 или 11 очкам, на выбор игрока, поэтому
     # если есть туз и счёт менее или равен 11, то счёт += 10
     raw = score_raw
     raw += 10 if ace? && raw <= 11
