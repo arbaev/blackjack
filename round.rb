@@ -2,16 +2,14 @@
 class Round
   BLACKJACK = 21
 
-  def initialize(player1, player2, bet)
+  def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @bet = bet
     @deck = Deck.new
   end
 
   def play_round
     deal_2cards
-    make_bet(@bet)
     show_scores
     [@player1, @player2].each { |p| move(p) }
     show_scores
@@ -21,8 +19,10 @@ class Round
   private
 
   def move(player)
-    puts "Ход #{player.name}, решение: #{player.decision}"
-    player.take_card(@deck.deal_card) if player.decision == :take
+    decision = player.decision
+    # FIXME: перенести в ио
+    puts "Ход #{player.name}, решение: #{decision}"
+    player.take_card(@deck.deal_card) if decision == :take
   end
 
   def open_cards

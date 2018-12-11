@@ -3,15 +3,18 @@ require_relative 'dealer'
 require_relative 'deck'
 require_relative 'card'
 require_relative 'round'
+require_relative 'game'
+require_relative 'interface'
 
-pl1 = Dealer.new("player", 100)
-pl2 = Dealer.new("dealer", 100)
+game = Game.new(100, 10)
+# pl1 = Dealer.new("player", 100)
+# pl2 = Dealer.new("dealer", 100)
 # d = Deck.new
 
-# FIXME: логичнее make_bet перенести в класс Игры и устанавливать до раунда
-r1 = Round.new(pl1, pl2, 10)
 
-puts r1.play_round.name
+# r1 = Round.new(player1, pl2, 10)
+
+# puts r1.play_round.name
 # aa1 = Card.new(1, :spades)
 # aa2 = Card.new(12, :hearts)
 # aa3 = Card.new(9, :diamonds)

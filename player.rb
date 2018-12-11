@@ -1,3 +1,5 @@
+require_relative 'interface'
+
 class Player
   attr_accessor :bank
   attr_reader :name, :cards
@@ -6,6 +8,8 @@ class Player
     @name = name
     @bank = bank
     @cards = []
+    # FIXME: надо использовать io из game, а не создавать новый инстанс
+    @io = Interface.new
   end
 
   def take_card(card)
@@ -20,6 +24,11 @@ class Player
     raw
   end
 
+  def decision
+    @io.menu(Interface::CHOICES_MENU)
+  end
+
+  # FIXME: возможно это следует перенести в interface
   def show_cards
     @cards.reduce('') { |acc, card| acc + "#{card.show} " }.lstrip
   end
