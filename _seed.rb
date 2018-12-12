@@ -5,8 +5,11 @@ require_relative 'card'
 require_relative 'round'
 require_relative 'game'
 require_relative 'interface'
+require_relative 'blackjack'
 
-game = Game.new(100, 10)
+# Game.new(100, 10)
+Blackjack.new(20, 10)
+
 # pl1 = Dealer.new("player", 100)
 # pl2 = Dealer.new("dealer", 100)
 # d = Deck.new

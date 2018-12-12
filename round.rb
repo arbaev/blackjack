@@ -10,9 +10,9 @@ class Round
 
   def play_round
     deal_2cards
-    show_scores
+    io.show_scores(@player1, @player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
-    show_scores
+    io.show_scores(@player1, @player2)
     open_cards
   end
 
@@ -49,10 +49,5 @@ class Round
   def make_bet(how_much)
     @player1.bank -= how_much
     @player2.bank -= how_much
-  end
-
-  def show_scores
-    puts "#{@player1.name}: #{@player1.show_cards} [#{@player1.score}] | "\
-         "#{@player2.name}: #{@player2.show_cards} [#{@player2.score}]"
   end
 end

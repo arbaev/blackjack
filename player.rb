@@ -28,9 +28,16 @@ class Player
     @io.menu(Interface::CHOICES_MENU)
   end
 
-  # FIXME: возможно это следует перенести в interface
   def show_cards
     @cards.reduce('') { |acc, card| acc + "#{card.show} " }.lstrip
+  end
+
+  def show_cards_hidden
+    @cards.reduce('') { |acc, card| acc + "** " }.lstrip
+  end
+
+  def score_hidden
+    'XX'
   end
 
   private

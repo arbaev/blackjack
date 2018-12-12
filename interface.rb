@@ -29,16 +29,31 @@ class Interface
 
 
   def show_round(number)
-    puts "Раунд #{number}"
+    puts '==================='
+    puts "===== Раунд #{number} ====="
   end
 
   def show_winner(player)
-    puts "Раунд выиграл #{player.name}"
+    puts "=> Раунд выиграл #{player.name}"
   end
 
-  def players_status
-    puts "Играет #{game.player1.name} ($#{game.player1.bank}) против " \
-         "#{game.player2.name} ($#{game.player2.bank})"
+  def players_status(player1, player2)
+    puts "Играет #{player1.name} ($#{player1.bank}) против " \
+         "#{player2.name} ($#{player2.bank})"
+  end
+
+  def show_scores(player1, player2, type = :open)
+    type == :open ? show_scores_open(player1, player2) : show_scores_hidden(player1, player2)
+  end
+
+  def show_scores_open(player1, player2)
+    puts "#{player1.name}: #{player1.show_cards} [#{player1.score}] | "\
+    "#{player2.name}: #{player2.show_cards} [#{player2.score}]"
+  end
+
+  def show_scores_hidden(player1, player2)
+    puts "#{player1.name}: #{player1.show_cards} [#{player1.score}] | "\
+    "#{player2.name}: #{player2.show_cards_hidden} [#{player2.score_hidden}]"
   end
 
   private
@@ -53,8 +68,8 @@ class Interface
   end
 
   def showmenu(menu)
-    puts '==================='
-    menu.each { |k, v| puts "#{k} - #{v[:action]}" }
-    puts '==================='
+    puts '-------------------'
+    menu.each { |k, v| puts "#{k} - #{v[:label]}" }
+    puts '-------------------'
   end
 end
