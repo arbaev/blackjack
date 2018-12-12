@@ -11,7 +11,8 @@ class Round
   end
 
   def play_round
-    deal_2cards
+    deal_cards(@player1, 2)
+    deal_cards(@player2, 2)
     show_scores(@player1, @player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
     show_scores(@player1, @player2)
@@ -22,8 +23,7 @@ class Round
 
   def move(player)
     decision = player.decision
-    # FIXME: перенести в ио
-    puts "Ход #{player.name}, решение: #{decision}"
+    show_decision(player, decision)
     player.take_card(@deck.deal_card) if decision == :take
   end
 
@@ -41,11 +41,8 @@ class Round
     :draw
   end
 
-  def deal_2cards
-    @player1.take_card(@deck.deal_card)
-    @player1.take_card(@deck.deal_card)
-    @player2.take_card(@deck.deal_card)
-    @player2.take_card(@deck.deal_card)
+  def deal_cards(player, quantity)
+    quantity.times { player.take_card(@deck.deal_card) }
   end
 
   def make_bet(how_much)

@@ -2,28 +2,18 @@ require_relative 'interface'
 # main cycle of game
 class Game
   include Interface
-  attr_reader :player1, :player2, :round_counter, :bet
+  attr_reader :player1, :player2, :bet
 
-  def initialize(pl1, pl2, bet)
+  def initialize(bank = 100, bet = 10)
+    welcome_message
+    @bank_start = bank
     @bet = bet
     @round_counter = 0
-    @player1 = pl1
-    @player2 = pl2
+    @player1 = Player.new(name, bank)
+    @player2 = Dealer.new('Dealer', bank)
     make_game
   end
 
-  # запросить - игра комп-комп или человек-комп
-  # DONE: запросить имя игрока
-  # запросить ставку и банк
-  # игровой цикл
-
-  # объявить номер раунда
-  # сделать ставки
-  # сыграть раунд
-  # объявить победителя раунда
-  # обновить банки и показать их
-  # объявить лузера, если таковой есть
-  # спросить о продолжении
   def make_game
     loop do
       main
@@ -32,45 +22,53 @@ class Game
 
       reset_cards
     end
+    show_final(player1, @bank_start)
   end
 
   def main
-    show_round(@round_counter += 1)
+    show_round_welcome(@round_counter += 1)
+    show_round_status(player1, player2, bet)
     bets_make
-    round = Round.new(@player1, @player2)
-    winner = round.play_round
-    if winner == :draw || winner == :both_lost
-      puts 'ничья'
-      bets_back
-    else
-      winner.bank += @bet * 2
-      show_winner(winner)
-    end
-    players_status(@player1, @player2)
-    ruined = [@player1, @player2].select { |pl| check_loser(pl) }.first
-    if ruined
-      # объявить лузера, если таковой есть и выйти
-      puts "#{ruined.name} RUINED!"
-      abort
-    end
+    winner = Round.new(player1, player2).play_round
+    check_winner(winner)
+    show_players_status(player1, player2)
+    check_ruined
   end
 
   def bets_make
-    @player1.bank -= @bet
-    @player2.bank -= @bet
+    player1.bank -= @bet
+    player2.bank -= @bet
   end
 
   def bets_back
-    @player1.bank += @bet
-    @player2.bank += @bet
+    player1.bank += @bet
+    player2.bank += @bet
+  end
+
+  def reset_cards
+    player1.cards.clear
+    player2.cards.clear
   end
 
   def check_loser(player)
     player.bank <= 0 ? player : false
   end
 
-  def reset_cards
-    @player1.cards.clear
-    @player2.cards.clear
+  def check_winner(winner)
+    if winner == :draw || winner == :both_lost
+      show_draw
+      bets_back
+    else
+      winner.bank += bet * 2
+      show_winner(winner)
+    end
+  end
+
+  def check_ruined
+    ruined = [player1, player2].select { |pl| check_loser(pl) }.first
+    if ruined
+      show_ruined(ruined)
+      abort
+    end
   end
 end

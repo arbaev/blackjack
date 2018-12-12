@@ -24,7 +24,7 @@ class Player
   end
 
   def decision
-    menu(CHOICES_MENU)
+    menu(Interface::CHOICES_MENU)
   end
 
   def show_cards
@@ -32,7 +32,7 @@ class Player
   end
 
   def show_cards_hidden
-    @cards.reduce('') { |acc, card| acc + "** " }.lstrip
+    @cards.reduce('') { |acc, _card| acc + '** ' }.lstrip
   end
 
   def score_hidden
@@ -46,6 +46,6 @@ class Player
   end
 
   def ace?
-    !!@cards.detect { |card| card.number == 1 }
+    !!@cards.detect { |card| card.rank == 1 }
   end
 end

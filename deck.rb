@@ -1,5 +1,7 @@
 class Deck
   SUITS = %i[clubs diamonds hearts spades].freeze
+  RANKS = (1..13).to_a
+
   attr_reader :deck
 
   def initialize
@@ -13,6 +15,6 @@ class Deck
   private
 
   def make_deck
-    (1..13).to_a.product(SUITS).map { |number, suit| Card.new(number, suit) }
+    RANKS.product(SUITS).map { |rank, suit| Card.new(rank, suit) }
   end
 end
