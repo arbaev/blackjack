@@ -1,4 +1,4 @@
-class Interface
+module Interface
   CHOICES_MENU = {
     '1' => { label: 'Взять карту', action: :take },
     '2' => { label: 'Открыть карты', action: :open },
@@ -8,10 +8,6 @@ class Interface
     '1' => { label: 'Продолжить игру', action: :continue },
     '0' => { label: 'Взять банк и покинуть казино', action: :exit },
   }.freeze
-
-  def initialize
-
-  end
 
   def name
     ask('Как вас зовут?')
@@ -26,7 +22,6 @@ class Interface
       unknown_command
     end
   end
-
 
   def show_round(number)
     puts '==================='

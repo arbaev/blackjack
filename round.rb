@@ -1,5 +1,7 @@
+require_relative 'interface'
 # main cycle of game
 class Round
+  include Interface
   BLACKJACK = 21
 
   def initialize(player1, player2)
@@ -10,9 +12,9 @@ class Round
 
   def play_round
     deal_2cards
-    io.show_scores(@player1, @player2, :hidden)
+    show_scores(@player1, @player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
-    io.show_scores(@player1, @player2)
+    show_scores(@player1, @player2)
     open_cards
   end
 
