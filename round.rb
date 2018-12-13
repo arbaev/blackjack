@@ -26,29 +26,26 @@ class Round
   def move(player)
     decision = player.decision
     Interface.show_decision(player, decision)
-    player.take_card(@deck.deal_card) if decision == :take
+    player.hand.take_card(@deck.deal_card) if decision == :take
   end
 
   def who_wins
     # Выигрывает игрок, у которого сумма очков ближе к 21
     # Если у игрока сумма очков больше 21, то он проиграл
     # Если сумма очков у игрока и дилера одинаковая, то объявляется ничья
-    return :both_lost if [@player1.score, @player2.score].min > BLACKJACK
+    score1 = @player1.hand.score
+    score2 = @player2.hand.score
+    return :both_lost if [score1, score2].min > BLACKJACK
 
-    return @player1 if @player2.score > BLACKJACK
-    return @player2 if @player1.score > BLACKJACK
-    return @player1 if BLACKJACK - @player1.score < BLACKJACK - @player2.score
-    return @player2 if BLACKJACK - @player1.score > BLACKJACK - @player2.score
+    return @player1 if score2 > BLACKJACK
+    return @player2 if score1 > BLACKJACK
+    return @player1 if BLACKJACK - score1 < BLACKJACK - score2
+    return @player2 if BLACKJACK - score1 > BLACKJACK - score2
 
     :draw
   end
 
   def deal_cards(player, quantity)
-    quantity.times { player.take_card(@deck.deal_card) }
-  end
-
-  def make_bet(how_much)
-    @player1.bank -= how_much
-    @player2.bank -= how_much
+    quantity.times { player.hand.take_card(@deck.deal_card) }
   end
 end

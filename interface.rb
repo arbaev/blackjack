@@ -53,13 +53,13 @@ module Interface
   end
 
   def show_scores_open(player1, player2)
-    puts "#{player1.name}: #{player1.show_cards} [#{player1.score}] | "\
-    "#{player2.name}: #{player2.show_cards} [#{player2.score}]"
+    puts "#{player1.name}: #{player1.hand.show} [#{player1.hand.score}] | "\
+    "#{player2.name}: #{player2.hand.show} [#{player2.hand.score}]"
   end
 
   def show_scores_hidden(player1, player2)
-    puts "#{player1.name}: #{player1.show_cards} [#{player1.score}] | "\
-    "#{player2.name}: #{player2.show_cards_hidden} [#{player2.score_hidden}]"
+    puts "#{player1.name}: #{player1.hand.show} [#{player1.hand.score}] | "\
+    "#{player2.name}: #{player2.hand.show_hidden} [#{player2.hand.score_hidden}]"
   end
 
   def welcome_message

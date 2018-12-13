@@ -38,18 +38,18 @@ class Game
   end
 
   def bets_make
-    player1.bank -= @bet
-    player2.bank -= @bet
+    player1.place_bet(@bet)
+    player2.place_bet(@bet)
   end
 
   def bets_back
-    player1.bank += @bet
-    player2.bank += @bet
+    player1.topup_bank(@bet)
+    player2.topup_bank(@bet)
   end
 
   def reset_cards
-    player1.cards.clear
-    player2.cards.clear
+    player1.hand.reset
+    player2.hand.reset
   end
 
   def check_loser(player)
@@ -58,18 +58,18 @@ class Game
 
   def check_winner(winner)
     if winner == :draw || winner == :both_lost
-      show_draw
+      Interface.show_draw
       bets_back
     else
-      winner.bank += bet * 2
-      show_winner(winner)
+      winner.topup_bank(bet * 2)
+      Interface.show_winner(winner)
     end
   end
 
   def check_ruined
     ruined = [player1, player2].select { |pl| check_loser(pl) }.first
     if ruined
-      show_ruined(ruined)
+      Interface.show_ruined(ruined)
       abort
     end
   end
