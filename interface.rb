@@ -12,7 +12,7 @@ module Interface
   module_function
 
   def name
-    ask('Как вас зовут?')
+    ask('=> Как вас зовут?').capitalize
   end
 
   def menu(menu)
@@ -30,57 +30,43 @@ module Interface
     puts "===== Раунд #{number} ====="
   end
 
-  def show_winner(player)
-    puts "=> Раунд выиграл #{player.name}"
+  def show_winner(name)
+    puts '==================='
+    puts "=> Раунд выиграл #{name}"
   end
 
-  def show_round_status(player1, player2, bet)
-    puts "Играет #{player1.name} ($#{player1.bank}) против " \
-         "#{player2.name} ($#{player2.bank}). Ставка $#{bet}"
+  def show_draw
+    puts '==================='
+    puts '=> Ничья, ставки возвращены'
   end
 
-  def show_players_status(player1, player2)
-    puts "Итог раунда: #{player1.name} ($#{player1.bank}) | " \
-         "#{player2.name} ($#{player2.bank})."
+  def show_status(name, bank)
+    puts "Игрок #{name} ($#{bank})"
   end
 
-  def show_decision(player, decision)
-    puts "Ход #{player.name}, решение: #{decision}"
+  def show_decision(name, decision)
+    puts "Ход #{name}, решение: #{decision}"
   end
 
-  def show_scores(player1, player2, type = :open)
-    type == :open ? show_scores_open(player1, player2) : show_scores_hidden(player1, player2)
-  end
-
-  def show_scores_open(player1, player2)
-    puts "#{player1.name}: #{player1.hand.show} [#{player1.hand.score}] | "\
-    "#{player2.name}: #{player2.hand.show} [#{player2.hand.score}]"
-  end
-
-  def show_scores_hidden(player1, player2)
-    puts "#{player1.name}: #{player1.hand.show} [#{player1.hand.score}] | "\
-    "#{player2.name}: #{player2.hand.show_hidden} [#{player2.hand.score_hidden}]"
+  def show_cards(name, cards, score)
+    puts "Карты #{name}: #{cards} [#{score}]"
   end
 
   def welcome_message
     puts '--- Добро пожаловать ---'
-    puts '--- в игру Blackjack ---'
+    puts "--- в игру Blackjack ---"
   end
 
-  def show_ruined(player)
+  def show_ruined(player_name)
     puts '--- Игра окончена ---'
-    puts "=> Игрок #{player.name} весь проигрался"
+    puts "=> Игрок #{player_name} весь проигрался"
   end
 
-  def show_draw
-    puts '=> Ничья, ставки возвращены'
-  end
-
-  def show_final(player, start_bank)
-    if player.bank < start_bank
-      puts "=> Всего доброго, #{player.name}! Ваш проигрыш составил $#{start_bank - player.bank}"
+  def show_final(name, money)
+    if money < 0
+      puts "=> Всего доброго, #{name}! Ваш проигрыш составил $#{money.abs}"
     else
-      puts "=> Всего доброго, #{player.name}! Ваш выигрыш составил $#{player.bank - start_bank}"
+      puts "=> Всего доброго, #{name}! Ваш выигрыш составил $#{money}"
     end
   end
 

@@ -3,29 +3,31 @@ require_relative 'interface'
 class Round
   include Interface
   BLACKJACK = 21
-  attr_reader :winner
+  attr_reader :result
 
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @winner = nil
+    @result = nil
     @deck = Deck.new
   end
 
   def play
     deal_cards(@player1, 2)
     deal_cards(@player2, 2)
-    Interface.show_scores(@player1, @player2, :hidden)
+    show_player_cards(@player1, :open)
+    show_player_cards(@player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
-    @winner = who_wins
-    Interface.show_scores(@player1, @player2)
+    @result = who_wins
+    show_player_cards(@player1)
+    show_player_cards(@player2)
   end
 
   private
 
   def move(player)
     decision = player.decision
-    Interface.show_decision(player, decision)
+    Interface.show_decision(player.name, decision)
     player.hand.take_card(@deck.deal_card) if decision == :take
   end
 
@@ -47,5 +49,13 @@ class Round
 
   def deal_cards(player, quantity)
     quantity.times { player.hand.take_card(@deck.deal_card) }
+  end
+
+  def show_player_cards(player, type = :open)
+    if type == :open
+      Interface.show_cards(player.name, player.hand.show, player.hand.score)
+    else
+      Interface.show_cards(player.name, player.hand.show_hidden, player.hand.score_hidden)
+    end
   end
 end

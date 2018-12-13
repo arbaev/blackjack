@@ -11,10 +11,10 @@ class Game
     @round_counter = 0
     @player1 = Player.new(Interface.name, bank)
     @player2 = Dealer.new('Dealer', bank)
-    make_game
+    @players = [@player1, @player2]
   end
 
-  def make_game
+  def play
     loop do
       main
       what_next = menu(Interface::GAME_MENU)
@@ -22,18 +22,19 @@ class Game
 
       reset_cards
     end
-    show_final(player1, @bank_start)
+    show_final(player1.name, player1.bank - @bank_start)
   end
+
+  private
 
   def main
     Interface.show_round_welcome(@round_counter += 1)
-    Interface.show_round_status(player1, player2, bet)
+    @players.each { |pl| Interface.show_status(pl.name, pl.bank) }
     bets_make
     round = Round.new(player1, player2)
     round.play
-    winner = round.winner
-    check_winner(winner)
-    show_players_status(player1, player2)
+    check_winner(round.result)
+    @players.each { |pl| Interface.show_status(pl.name, pl.bank) }
     check_ruined
   end
 
@@ -56,20 +57,21 @@ class Game
     player.bank <= 0 ? player : false
   end
 
-  def check_winner(winner)
-    if winner == :draw || winner == :both_lost
+  def check_winner(result)
+    if result == :draw || result == :both_lost
       Interface.show_draw
       bets_back
     else
+      winner = result
       winner.topup_bank(bet * 2)
-      Interface.show_winner(winner)
+      Interface.show_winner(winner.name)
     end
   end
 
   def check_ruined
-    ruined = [player1, player2].select { |pl| check_loser(pl) }.first
+    ruined = @players.select { |pl| check_loser(pl) }.first
     if ruined
-      Interface.show_ruined(ruined)
+      Interface.show_ruined(ruined.name)
       abort
     end
   end
