@@ -9,6 +9,8 @@ module Interface
     '0' => { label: 'Взять банк и покинуть казино', action: :exit }
   }.freeze
 
+  module_function
+
   def name
     ask('Как вас зовут?')
   end
@@ -81,8 +83,6 @@ module Interface
       puts "=> Всего доброго, #{player.name}! Ваш выигрыш составил $#{player.bank - start_bank}"
     end
   end
-
-  private
 
   def ask(question)
     print question + ' '

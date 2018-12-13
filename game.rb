@@ -5,11 +5,11 @@ class Game
   attr_reader :player1, :player2, :bet
 
   def initialize(bank = 100, bet = 10)
-    welcome_message
+    Interface.welcome_message
     @bank_start = bank
     @bet = bet
     @round_counter = 0
-    @player1 = Player.new(name, bank)
+    @player1 = Player.new(Interface.name, bank)
     @player2 = Dealer.new('Dealer', bank)
     make_game
   end
@@ -26,8 +26,8 @@ class Game
   end
 
   def main
-    show_round_welcome(@round_counter += 1)
-    show_round_status(player1, player2, bet)
+    Interface.show_round_welcome(@round_counter += 1)
+    Interface.show_round_status(player1, player2, bet)
     bets_make
     winner = Round.new(player1, player2).play_round
     check_winner(winner)

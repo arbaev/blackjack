@@ -13,9 +13,9 @@ class Round
   def play_round
     deal_cards(@player1, 2)
     deal_cards(@player2, 2)
-    show_scores(@player1, @player2, :hidden)
+    Interface.show_scores(@player1, @player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
-    show_scores(@player1, @player2)
+    Interface.show_scores(@player1, @player2)
     open_cards
   end
 
@@ -23,7 +23,7 @@ class Round
 
   def move(player)
     decision = player.decision
-    show_decision(player, decision)
+    Interface.show_decision(player, decision)
     player.take_card(@deck.deal_card) if decision == :take
   end
 

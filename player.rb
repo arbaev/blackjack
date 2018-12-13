@@ -24,7 +24,7 @@ class Player
   end
 
   def decision
-    menu(Interface::CHOICES_MENU)
+    Interface.menu(Interface::CHOICES_MENU)
   end
 
   def show_cards
