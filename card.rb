@@ -1,22 +1,20 @@
 class Card
-  attr_reader :rank
+  SUITS = ['♣', '♦', '♥', '♠'].freeze
+  RANKS = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'].freeze
+
+  attr_reader :name, :points
 
   def initialize(rank, suit)
-    @rank = rank
-    @suit = suit
+    @name = "#{rank}#{suit}"
+    @points = value(rank)
   end
 
-  def value
-    return 10 if rank > 10
+  private
+
+  def value(rank)
+    return 1 if rank == 'A'
+    return 10 if rank.is_a?(String)
 
     rank
-  end
-
-  def show
-    card_names = { 1 => 'A', 11 => 'J', 12 => 'Q', 13 => 'K' }
-    suit_names = { clubs: '♣', diamonds: '♦', hearts: '♥', spades: '♠' }
-    name = card_names[@rank] || @rank
-    suit = suit_names[@suit]
-    "#{name}#{suit}"
   end
 end

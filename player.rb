@@ -28,7 +28,7 @@ class Player
   end
 
   def show_cards
-    @cards.reduce('') { |acc, card| acc + "#{card.show} " }.lstrip
+    @cards.reduce('') { |acc, card| acc + "#{card.name} " }.lstrip
   end
 
   def show_cards_hidden
@@ -42,10 +42,10 @@ class Player
   private
 
   def score_raw
-    @cards.reduce(0) { |acc, card| acc + card.value }
+    @cards.reduce(0) { |acc, card| acc + card.points }
   end
 
   def ace?
-    !!@cards.detect { |card| card.rank == 1 }
+    !!@cards.detect { |card| card.points == 1 }
   end
 end
