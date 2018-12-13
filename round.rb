@@ -3,20 +3,22 @@ require_relative 'interface'
 class Round
   include Interface
   BLACKJACK = 21
+  attr_reader :winner
 
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
+    @winner = nil
     @deck = Deck.new
   end
 
-  def play_round
+  def play
     deal_cards(@player1, 2)
     deal_cards(@player2, 2)
     Interface.show_scores(@player1, @player2, :hidden)
     [@player1, @player2].each { |p| move(p) }
+    @winner = who_wins
     Interface.show_scores(@player1, @player2)
-    open_cards
   end
 
   private
@@ -27,7 +29,7 @@ class Round
     player.take_card(@deck.deal_card) if decision == :take
   end
 
-  def open_cards
+  def who_wins
     # Выигрывает игрок, у которого сумма очков ближе к 21
     # Если у игрока сумма очков больше 21, то он проиграл
     # Если сумма очков у игрока и дилера одинаковая, то объявляется ничья

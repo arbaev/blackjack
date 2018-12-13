@@ -29,7 +29,9 @@ class Game
     Interface.show_round_welcome(@round_counter += 1)
     Interface.show_round_status(player1, player2, bet)
     bets_make
-    winner = Round.new(player1, player2).play_round
+    round = Round.new(player1, player2)
+    round.play
+    winner = round.winner
     check_winner(winner)
     show_players_status(player1, player2)
     check_ruined
