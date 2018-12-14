@@ -17,7 +17,7 @@ class Round
     deal_cards(@player2, 2)
     show_player_cards(@player1, :open)
     show_player_cards(@player2, :hidden)
-    [@player1, @player2].each { |p| move(p) }
+    moves
     @result = who_wins
     show_player_cards(@player1)
     show_player_cards(@player2)
@@ -25,10 +25,20 @@ class Round
 
   private
 
-  def move(player)
-    decision = player.decision
-    Interface.show_decision(player.name, decision)
-    player.hand.take_card(@deck.deal_card) if decision == :take
+  def moves
+    decision = @player1.decision
+    return if decision == :open
+    @player1.hand.take_card(@deck.deal_card) if decision == :take
+    show_player_cards(@player1, :open)
+
+    decision = @player2.decision
+    return if decision == :open
+    @player2.hand.take_card(@deck.deal_card) if decision == :take
+    Interface.show_decision(@player2.name, decision)
+    show_player_cards(@player2, :hidden)
+
+    decision = @player1.decision
+    @player1.hand.take_card(@deck.deal_card) if decision == :take
   end
 
   def who_wins

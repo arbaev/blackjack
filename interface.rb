@@ -45,6 +45,7 @@ module Interface
   end
 
   def show_decision(name, decision)
+    decision ||= :none
     puts "Ход #{name}, решение: #{decision}"
   end
 
@@ -54,7 +55,7 @@ module Interface
 
   def welcome_message
     puts '--- Добро пожаловать ---'
-    puts "--- в игру Blackjack ---"
+    puts '--- в игру Blackjack ---'
   end
 
   def show_ruined(player_name)
